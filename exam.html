@@ -1,18 +1,21 @@
+Replace your full exam.html with this corrected version:
+
 <!DOCTYPE html>
 <html>
 <head>
   <meta charset="UTF-8">
   <title>ZENITH HIGH CBT Exam</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
   <style>
+    * {
+      box-sizing: border-box;
+    }
     body {
       font-family: Arial, sans-serif;
       background: #eef3f9;
       margin: 0;
       padding: 0;
     }
-
     .topbar {
       background: #0b2c66;
       color: white;
@@ -21,8 +24,10 @@
       justify-content: space-between;
       align-items: center;
       font-weight: bold;
+      position: sticky;
+      top: 0;
+      z-index: 1000;
     }
-
     .container {
       max-width: 900px;
       margin: 20px auto;
@@ -31,20 +36,23 @@
       border-radius: 14px;
       box-shadow: 0 5px 18px rgba(0,0,0,0.12);
     }
-
+    .student-info {
+      font-size: 14px;
+      margin-bottom: 18px;
+      line-height: 1.5;
+    }
     .question-number {
       font-size: 20px;
       font-weight: bold;
       color: #0b2c66;
       margin-bottom: 10px;
     }
-
     .question-text {
       font-size: 18px;
       line-height: 1.5;
       margin-bottom: 18px;
+      white-space: pre-wrap;
     }
-
     .question-img {
       max-width: 100%;
       max-height: 350px;
@@ -52,7 +60,6 @@
       margin: 15px auto;
       border-radius: 8px;
     }
-
     .option {
       border: 1px solid #ccc;
       padding: 12px;
@@ -60,20 +67,21 @@
       margin-bottom: 10px;
       cursor: pointer;
       font-size: 17px;
+      line-height: 1.4;
+      background: white;
     }
-
     .option.selected {
       background: #dbeafe;
       border-color: #0b2c66;
       font-weight: bold;
     }
-
     .nav-buttons {
       display: flex;
+      flex-wrap: wrap;
       gap: 10px;
       margin-top: 20px;
+      align-items: center;
     }
-
     button {
       padding: 12px 18px;
       background: #0b2c66;
@@ -83,153 +91,301 @@
       font-size: 16px;
       cursor: pointer;
       font-weight: bold;
+      white-space: nowrap;
     }
-
     button.secondary {
       background: #555;
     }
-
+    button.review {
+      background: #7b1fa2;
+    }
+    button.clear {
+      background: #777;
+    }
     button.submit {
       background: #0b7a32;
       margin-left: auto;
     }
-
-    .student-info {
-      font-size: 14px;
+    .palette-box {
+      margin-top: 28px;
+      padding-top: 18px;
+      border-top: 1px solid #ddd;
     }
-
+    .palette-title {
+      font-size: 22px;
+      font-weight: bold;
+      margin-bottom: 12px;
+      color: #111;
+    }
+    .question-palette {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(46px, 46px));
+      gap: 10px;
+      align-items: center;
+    }
+    .palette-btn {
+      width: 46px;
+      height: 46px;
+      padding: 0;
+      border-radius: 8px;
+      font-size: 17px;
+      font-weight: bold;
+      text-align: center;
+      border: 2px solid transparent;
+      color: #111;
+      background: #cfd8dc;
+    }
+    .palette-btn.not-visited {
+      background: #cfd8dc;
+      color: #111;
+    }
+    .palette-btn.unanswered {
+      background: #f1f5f9;
+      color: #111;
+      border-color: #b0bec5;
+    }
+    .palette-btn.answered {
+      background: #7b1fa2;
+      color: white;
+    }
+    .palette-btn.reviewed {
+      background: #f59e0b;
+      color: white;
+    }
+    .palette-btn.current {
+      outline: 4px solid #111;
+      outline-offset: 2px;
+    }
+    .legend {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      margin-top: 16px;
+      font-size: 13px;
+      color: #333;
+    }
+    .legend span {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .dot {
+      width: 14px;
+      height: 14px;
+      border-radius: 4px;
+      display: inline-block;
+    }
+    .dot.grey {
+      background: #cfd8dc;
+    }
+    .dot.white {
+      background: #f1f5f9;
+      border: 1px solid #b0bec5;
+    }
+    .dot.purple {
+      background: #7b1fa2;
+    }
+    .dot.orange {
+      background: #f59e0b;
+    }
     .warning {
       color: red;
       font-weight: bold;
       margin-top: 15px;
     }
+    @media (max-width: 600px) {
+      .container {
+        margin: 10px;
+        padding: 16px;
+        border-radius: 10px;
+      }
+      .topbar {
+        font-size: 14px;
+        padding: 12px;
+      }
+      .question-text {
+        font-size: 16px;
+      }
+      .option {
+        font-size: 16px;
+      }
+      .nav-buttons button {
+        flex: 1 1 auto;
+        font-size: 14px;
+        padding: 10px 12px;
+      }
+      button.submit {
+        margin-left: 0;
+      }
+      .question-palette {
+        grid-template-columns: repeat(5, 1fr);
+      }
+      .palette-btn {
+        width: 100%;
+        height: 44px;
+      }
+    }
   </style>
 </head>
-
 <body>
   <div class="topbar">
     <div>ZENITH HIGH CBT</div>
     <div id="timer">Time: 180:00</div>
   </div>
-
   <div class="container">
     <div class="student-info" id="studentInfo"></div>
-
     <div class="question-number" id="questionNumber"></div>
     <div class="question-text" id="questionText"></div>
     <img id="questionImage" class="question-img" style="display:none;">
-
     <div id="optionsBox"></div>
-
     <div class="nav-buttons">
       <button class="secondary" onclick="prevQuestion()">Previous</button>
+      <button class="clear" onclick="clearResponse()">Clear Response</button>
+      <button class="review" onclick="markForReview()">Mark for Review</button>
       <button onclick="nextQuestion()">Next</button>
       <button class="submit" onclick="confirmSubmit()">Submit Exam</button>
     </div>
-
+    <div class="palette-box">
+      <div class="palette-title">Questions</div>
+      <div class="question-palette" id="questionPalette"></div>
+      <div class="legend">
+        <span><i class="dot grey"></i> Not visited</span>
+        <span><i class="dot white"></i> Unanswered</span>
+        <span><i class="dot purple"></i> Answered</span>
+        <span><i class="dot orange"></i> Marked for review</span>
+      </div>
+    </div>
     <div class="warning" id="warning"></div>
   </div>
-
   <script src="questions.js"></script>
-
   <script>
     const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbwWqrXYBHFoZJCohBix9FXKP4BMkZym-r4arYbybFiXLAf78aBQmQSMFSEAp5okNLJs/exec";
-
     const EXAM_DURATION_SECONDS = 180 * 60;
-
     let currentIndex = 0;
     let userAnswers = {};
+    let visitedQuestions = {};
+    let reviewedQuestions = {};
     let startedAt = new Date();
     let timerInterval = null;
     let submitted = false;
-
     const candidateId = localStorage.getItem("candidateId") || "";
     const token = localStorage.getItem("token") || "";
     const candidateName = localStorage.getItem("candidateName") || "";
     const candidatePhone = localStorage.getItem("candidatePhone") || "";
     const candidateEmail = localStorage.getItem("candidateEmail") || "";
-
     if (!candidateId || !token) {
       alert("Please login first");
       window.location.href = "login.html";
     }
-
     document.getElementById("studentInfo").innerHTML =
       "<b>Name:</b> " + candidateName +
       " | <b>ID:</b> " + candidateId +
       " | <b>Email:</b> " + candidateEmail;
-
     function renderQuestion() {
       const q = window.questions[currentIndex];
-
+      visitedQuestions[q.id] = true;
       document.getElementById("questionNumber").textContent =
         "Question " + (currentIndex + 1) + " of " + window.questions.length;
-
       document.getElementById("questionText").textContent = q.question;
-
       const img = document.getElementById("questionImage");
-
       if (q.image && q.image.trim() !== "") {
         img.src = q.image;
         img.style.display = "block";
       } else {
         img.style.display = "none";
+        img.removeAttribute("src");
       }
-
       const optionsBox = document.getElementById("optionsBox");
       optionsBox.innerHTML = "";
-
       q.options.forEach(function(option, index) {
         const div = document.createElement("div");
         div.className = "option";
-
         if (userAnswers[q.id] === index) {
           div.classList.add("selected");
         }
-
-        const label = ["A- 1", "B- 2", "C- 3", "D- 4"][index];
-
+        const label = ["A", "B", "C", "D"][index];
         div.textContent = label + ". " + option;
-
         div.onclick = function() {
           userAnswers[q.id] = index;
+          reviewedQuestions[q.id] = false;
           renderQuestion();
         };
-
         optionsBox.appendChild(div);
       });
+      renderPalette();
     }
-
+    function renderPalette() {
+      const palette = document.getElementById("questionPalette");
+      palette.innerHTML = "";
+      window.questions.forEach(function(q, index) {
+        const btn = document.createElement("button");
+        btn.className = "palette-btn";
+        btn.textContent = index + 1;
+        if (!visitedQuestions[q.id]) {
+          btn.classList.add("not-visited");
+        } else if (reviewedQuestions[q.id]) {
+          btn.classList.add("reviewed");
+        } else if (userAnswers[q.id] !== undefined) {
+          btn.classList.add("answered");
+        } else {
+          btn.classList.add("unanswered");
+        }
+        if (index === currentIndex) {
+          btn.classList.add("current");
+        }
+        btn.onclick = function() {
+          currentIndex = index;
+          renderQuestion();
+        };
+        palette.appendChild(btn);
+      });
+    }
     function nextQuestion() {
       if (currentIndex < window.questions.length - 1) {
         currentIndex++;
         renderQuestion();
       }
     }
-
     function prevQuestion() {
       if (currentIndex > 0) {
         currentIndex--;
         renderQuestion();
       }
     }
-
+    function clearResponse() {
+      const q = window.questions[currentIndex];
+      delete userAnswers[q.id];
+      reviewedQuestions[q.id] = false;
+      renderQuestion();
+    }
+    function markForReview() {
+      const q = window.questions[currentIndex];
+      reviewedQuestions[q.id] = true;
+      if (currentIndex < window.questions.length - 1) {
+        currentIndex++;
+      }
+      renderQuestion();
+    }
     function confirmSubmit() {
-      const ok = confirm("Are you sure you want to submit the exam?");
+      const totalQuestions = window.questions.length;
+      const answeredCount = Object.keys(userAnswers).length;
+      const unansweredCount = totalQuestions - answeredCount;
+      const ok = confirm(
+        "Are you sure you want to submit the exam?\n\n" +
+        "Total Questions: " + totalQuestions + "\n" +
+        "Answered: " + answeredCount + "\n" +
+        "Unanswered: " + unansweredCount
+      );
       if (ok) {
         submitExam("manual", false);
       }
     }
-
     async function submitExam(reason, isAuto) {
       if (submitted) return;
       submitted = true;
-
       const endedAt = new Date();
       const timeTakenSec = Math.floor((endedAt - startedAt) / 1000);
-
       const qOrder = window.questions.map(q => q.id);
-
       try {
         const res = await fetch(SCRIPT_URL, {
           method: "POST",
@@ -247,9 +403,7 @@
             isAuto: isAuto
           })
         });
-
         const result = await res.json();
-
         if (result.status === "success") {
           alert("Exam submitted successfully");
           localStorage.removeItem("token");
@@ -258,35 +412,27 @@
           alert(result.message || "Submission failed");
           submitted = false;
         }
-
       } catch (error) {
         alert("Submission failed. Please check internet and try again.");
         submitted = false;
       }
     }
-
     function startTimer() {
       let remaining = EXAM_DURATION_SECONDS;
-
       timerInterval = setInterval(function() {
         remaining--;
-
         const min = Math.floor(remaining / 60);
         const sec = remaining % 60;
-
         document.getElementById("timer").textContent =
           "Time: " + min + ":" + String(sec).padStart(2, "0");
-
         if (remaining <= 0) {
           clearInterval(timerInterval);
           submitExam("time_over", true);
         }
       }, 1000);
     }
-
     function sendViolation(type, details) {
       if (!candidateId || !token || submitted) return;
-
       fetch(SCRIPT_URL, {
         method: "POST",
         body: JSON.stringify({
@@ -298,44 +444,50 @@
         })
       });
     }
-
     document.addEventListener("visibilitychange", function() {
       if (document.hidden) {
         sendViolation("Tab switched", "Student switched tab or minimized browser");
       }
     });
-
     document.addEventListener("fullscreenchange", function() {
       if (!document.fullscreenElement) {
         sendViolation("Fullscreen exited", "Student exited fullscreen mode");
       }
     });
-
     document.addEventListener("contextmenu", function(e) {
       e.preventDefault();
       sendViolation("Right click attempted", "Student attempted right click");
     });
-
     document.addEventListener("copy", function(e) {
       e.preventDefault();
       sendViolation("Copy attempted", "Student attempted copy");
     });
-
     window.addEventListener("beforeunload", function() {
       if (!submitted) {
         sendViolation("Page refreshed", "Student refreshed, closed, or left page");
       }
     });
-
     function formatLocalDate(date) {
       return date.toLocaleString("en-IN", {
         timeZone: "Asia/Kolkata",
         hour12: false
       });
     }
-
-    renderQuestion();
-    startTimer();
+    if (!window.questions || !Array.isArray(window.questions) || window.questions.length === 0) {
+      alert("Questions not loaded. Please check questions.js file.");
+    } else {
+      renderQuestion();
+      startTimer();
+    }
   </script>
 </body>
 </html>
+
+Main correction is this part:
+
+.question-palette {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+}
+
+So the palette will show as small question boxes instead of long full-width bars.
