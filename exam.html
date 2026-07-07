@@ -5,7 +5,361 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>NEET PG CBT - Exam</title>
 
-  <link rel="stylesheet" href="style.css" />
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background: #ffffff;
+      color: #111;
+    }
+
+    .topbar {
+      background: #003b66;
+      color: white;
+      height: 34px;
+      padding: 7px 14px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 14px;
+      font-weight: bold;
+      position: sticky;
+      top: 0;
+      z-index: 999;
+    }
+
+    .layout {
+      display: grid;
+      grid-template-columns: 1fr 310px;
+      min-height: calc(100vh - 34px);
+    }
+
+    .main {
+      padding: 15px 45px;
+      background: #ffffff;
+    }
+
+    .qbox {
+      max-width: 950px;
+    }
+
+    .student-info {
+      font-size: 13px;
+      margin-bottom: 10px;
+      line-height: 1.5;
+      color: #333;
+    }
+
+    .qtitle {
+      font-weight: bold;
+      margin-bottom: 12px;
+      font-size: 15px;
+    }
+
+    .qtext {
+      background: #f7f7f7;
+      padding: 12px;
+      border-radius: 4px;
+      line-height: 1.45;
+      font-size: 15px;
+      margin-bottom: 14px;
+      white-space: pre-wrap;
+    }
+
+    .qimg {
+      width: 100%;
+      max-height: 520px;
+      object-fit: contain;
+      display: block;
+      margin: 12px auto;
+      border: 1px solid #ddd;
+      border-radius: 4px;
+      cursor: zoom-in;
+    }
+
+    .opts {
+      margin-top: 10px;
+    }
+
+    .opt {
+      border: 1px solid #ddd;
+      border-radius: 4px;
+      padding: 10px 12px;
+      margin-bottom: 8px;
+      font-size: 14px;
+      background: white;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .opt:hover {
+      background: #f6f8fb;
+    }
+
+    .opt.selected {
+      background: #dbeafe;
+      border-color: #003b66;
+      font-weight: bold;
+    }
+
+    .radio-circle {
+      width: 13px;
+      height: 13px;
+      min-width: 13px;
+      border-radius: 50%;
+      border: 2px solid #8a8a8a;
+      display: inline-block;
+      position: relative;
+    }
+
+    .opt.selected .radio-circle {
+      border-color: #0057d9;
+    }
+
+    .opt.selected .radio-circle::after {
+      content: "";
+      width: 7px;
+      height: 7px;
+      background: #0057d9;
+      border-radius: 50%;
+      position: absolute;
+      left: 1px;
+      top: 1px;
+    }
+
+    .actions {
+      display: flex;
+      gap: 8px;
+      margin-top: 12px;
+      flex-wrap: wrap;
+    }
+
+    button {
+      background: #003b66;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      padding: 9px 14px;
+      font-weight: bold;
+      cursor: pointer;
+      font-size: 13px;
+    }
+
+    button:hover {
+      opacity: 0.9;
+    }
+
+    button:disabled {
+      opacity: 0.45;
+      cursor: not-allowed;
+    }
+
+    button.danger {
+      background: #c40035;
+    }
+
+    .palette {
+      background: #f3f5fa;
+      border-left: 1px solid #d6dce5;
+      padding: 25px 18px;
+      min-height: calc(100vh - 34px);
+    }
+
+    .palette h3 {
+      margin: 0 0 16px 0;
+      font-size: 20px;
+    }
+
+    #pal {
+      display: grid;
+      grid-template-columns: repeat(6, 38px);
+      gap: 10px;
+      align-items: center;
+    }
+
+    #pal button {
+      width: 38px;
+      height: 38px;
+      padding: 0;
+      border-radius: 6px;
+      border: none;
+      font-size: 13px;
+      font-weight: bold;
+      color: #111;
+      background: #dbe3e7;
+    }
+
+    #pal button.current {
+      outline: 3px solid #000;
+      outline-offset: 2px;
+    }
+
+    #pal button.unanswered {
+      background: #dbe3e7;
+      color: #111;
+    }
+
+    #pal button.answered {
+      background: #2e7d32;
+      color: white;
+    }
+
+    #pal button.review {
+      background: #7b1fa2;
+      color: white;
+    }
+
+    #pal button.ansreview {
+      background: #0d70b7;
+      color: white;
+    }
+
+    .legend {
+      margin-top: 16px;
+      font-size: 13px;
+    }
+
+    .legend div {
+      margin-bottom: 8px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .dot {
+      width: 13px;
+      height: 13px;
+      display: inline-block;
+      border-radius: 3px;
+    }
+
+    .dot.unanswered {
+      background: #dbe3e7;
+    }
+
+    .dot.answered {
+      background: #2e7d32;
+    }
+
+    .dot.review {
+      background: #7b1fa2;
+    }
+
+    .dot.ansreview {
+      background: #0d70b7;
+    }
+
+    .warning {
+      color: #c62828;
+      font-weight: bold;
+      margin-top: 14px;
+      font-size: 14px;
+    }
+
+    .img-modal {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.92);
+      z-index: 9999;
+    }
+
+    .img-modal.show {
+      display: block;
+    }
+
+    .img-modal-top {
+      height: 55px;
+      display: flex;
+      justify-content: flex-end;
+      align-items: center;
+      gap: 10px;
+      padding: 10px;
+    }
+
+    .img-modal-body {
+      height: calc(100vh - 55px);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      overflow: auto;
+    }
+
+    .img-modal-body img {
+      max-width: 95%;
+      max-height: 95%;
+      object-fit: contain;
+    }
+
+    @media (max-width: 768px) {
+      .topbar {
+        height: auto;
+        min-height: 36px;
+        font-size: 13px;
+        padding: 8px 10px;
+      }
+
+      .layout {
+        display: block;
+      }
+
+      .main {
+        padding: 12px;
+      }
+
+      .qtext {
+        font-size: 14px;
+      }
+
+      .qimg {
+        max-height: 360px;
+      }
+
+      .opt {
+        font-size: 14px;
+        padding: 10px;
+      }
+
+      .actions {
+        gap: 6px;
+      }
+
+      .actions button {
+        padding: 8px 10px;
+        font-size: 12px;
+      }
+
+      .palette {
+        border-left: none;
+        border-top: 1px solid #d6dce5;
+        min-height: auto;
+        padding: 18px 12px;
+      }
+
+      #pal {
+        grid-template-columns: repeat(6, 42px);
+        gap: 9px;
+      }
+
+      #pal button {
+        width: 42px;
+        height: 42px;
+        font-size: 13px;
+      }
+    }
+
+    @media (max-width: 380px) {
+      #pal {
+        grid-template-columns: repeat(5, 42px);
+      }
+    }
+  </style>
 </head>
 
 <body>
@@ -47,7 +401,6 @@
 
     <aside class="palette">
       <h3>Questions</h3>
-
       <div id="pal"></div>
 
       <div class="legend">
@@ -70,8 +423,8 @@
     </div>
   </div>
 
-  <script src="config.js"></script>
-  <script src="questions.js"></script>
+  <script src="config.js?v=20260707b"></script>
+  <script src="questions.js?v=20260707b"></script>
 
   <script>
     const API_URL = window.API_URL || window.SCRIPT_URL || "";
