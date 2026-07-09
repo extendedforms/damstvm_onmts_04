@@ -483,7 +483,7 @@ window.questions = [
   },
   {
     id: 38,
-    image: "images/handhygiene.mov",
+    image: "",
     question: "A researcher wants to graphically display and simultaneously compare the varying proportions of mild, moderate, and severe anemia across three different pregnant cohorts. Which specific diagram is most suitable for visualizing this subgroup comparison?",
     options: [
       "Simple bar diagram",
@@ -496,7 +496,7 @@ window.questions = [
   },
   {
     id: 39,
-    image: "",
+    image: "images/handhygiene.mov",
     question: "A physician applies a solution containing 75% isopropyl alcohol and 0.5% chlorhexidine gluconate to unsoiled hands, rubbing them vigorously for 20 seconds immediately prior to palpating a patient's abdomen in the general ward as shown in the video. Although the chemical agents utilized in this solution are capable of rapidly denaturing cellular proteins and disrupting the lipid envelopes of numerous pathogenic viruses, according to standard WHO infection prevention and control guidelines, this specific procedural action is officially classified as which of the following?",
     options: [
       "Sterilization",
@@ -1081,7 +1081,7 @@ window.questions = [
   },
   {
     id: 84,
-    image: "images/IMG_9439.jpeg",
+    image: "images/IMG_9456.jpeg",
     question: "A 45-year-old male presents with characteristic subcutaneous nodules, skin depigmentation, and progressive visual impairment leading to \"river blindness.\" Which vector is responsible for transmitting the causative parasite of this condition?",
     options: [
       "Sandfly",
@@ -1732,7 +1732,7 @@ window.questions = [
   {
     id: 134,
     image: "",
-    question: "An 8-year-old child presents with sudden onset floppiness of the right lower limb, diagnosed as Acute Flaccid Paralysis (AFP). According to the national surveillance guidelines, which of the following is the correct protocol for stool sample transport?",
+    question: "An 8-year-old child presents with sudden onset floppiness of the right lower limb, diagnosed as Acute Flaccid Paralysis (AFP). According to the national surveillance guidelines, which of the  following is the correct protocol for stool sample transport?",
     options: [
       "2 samples collected 48 hours apart",
       "Collected in a container with a chemical preservative",
@@ -1897,6 +1897,19 @@ window.questions = [
     ],
     answerIndex: 0,
     correctAnswerText: "40%"
+  },
+  {
+  id: 147,
+  image: "",
+  question: "A public health researcher intends to investigate a rare cancer suspected to be associated with an environmental exposure that occurred 20 years ago. Which study design is the most appropriate to initially evaluate this association?",
+  options: [
+    "Cross-sectional study",
+    "Case-Control study",
+    "Prospective Cohort study",
+    "Randomized Controlled Trial"
+  ],
+  answerIndex: 1,
+  correctAnswerText: "Case-Control study"
   },
   {
     id: 148,
